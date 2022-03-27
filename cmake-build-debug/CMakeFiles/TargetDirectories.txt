@@ -1,0 +1,3 @@
+C:/Users/danyt/CLionProjects/myMainPP/cmake-build-debug/CMakeFiles/myMainPP.dir
+C:/Users/danyt/CLionProjects/myMainPP/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/danyt/CLionProjects/myMainPP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
