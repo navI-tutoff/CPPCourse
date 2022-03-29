@@ -7,10 +7,10 @@
 #IncludeRegexTransform: 
 
 C:/Users/danyt/CLionProjects/myMainPP/main.cpp
-iostream
--
 fstream
 -
-ctime
+iostream
+-
+stdexcept
 -
 

@@ -1,29 +1,59 @@
-#include <iostream>
 #include <fstream>
-#include <ctime>
+#include <iostream>
+#include <stdexcept>
 
-void infinitivePause() {
-    while (true) {}
+long long getSum(const std::string &filename) {
+    std::ifstream inputFile(filename);
+
+    if (!inputFile) {
+        throw std::runtime_error("File doesn't exist");
+    }
+
+    long long sum = 0;
+    int x;
+    while (inputFile >> x) {
+        sum += x;
+    }
+
+    return sum;
 }
 
-#include <iostream>
+int max(const int a, const int b) {
+    return a > b ? a : b;
+}
+
+long long getSumOfMaxesInRows(const std::string &filename) {
+    std::fstream inputFile(filename);
+
+    if (!inputFile) {
+        throw std::runtime_error("File doesn't exist");
+    }
+
+    int sumOfMaxesInRows = 0;
+    int height, width;
+    inputFile >> height;   // считываем первые два значения
+    inputFile >> width;    // для установления размеров матрицы
+
+    for (int i = 0; i < height; i++) {
+        int maxInRow;
+        inputFile >> maxInRow;
+        for (int j = 1; j < width; j++) {
+            int value;
+            inputFile >> value;
+            maxInRow = max(value, maxInRow);
+        }
+        sumOfMaxesInRows += maxInRow;
+    }
+
+    return sumOfMaxesInRows;
+}
 
 int main() {
-    bool smthPrettyImportant = true;
-
-    if (!(10 < 5)) {
-        smthPrettyImportant = false;
-    }
-
-    if (!smthPrettyImportant) {
-        std::clog << "Fatal Error" << '\n';
-        std::cerr << "Self-destruct in 3...";
-    }
-
-    infinitivePause();
+    std::cout << getSumOfMaxesInRows("input.txt");
 
     return 0;
 }
+
 
 
 //// вывод осуществляется в поток, связанный с логами
