@@ -7,10 +7,10 @@
 #IncludeRegexTransform: 
 
 C:/Users/danyt/CLionProjects/myMainPP/main.cpp
-fstream
--
 iostream
 -
-stdexcept
+valarray
+-
+cassert
 -
 
