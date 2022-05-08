@@ -1,40 +1,30 @@
 #include <iostream>
+#include <vector>
 
-#define THREE_MONTHS_INVESTMENTS 3
-#define SIX_MONTHS_INVESTMENTS 6
-#define ONE_YEAR_INVESTMENTS 12
-
-double countProfit(double startSum, double percent, int months) {
-    double profit = 0;
-    while (months--) {
-        profit += startSum * percent / 100;
+// returns total equipment cost after markdown damagePercent percent
+double countTotalEquipmentCostAfterMarkdown(const std::vector<double> &equipmentCost,
+                                            const double &damagePercent) {
+    double moneyDamage = 0;
+    double sumOfEquipCost = 0;
+    for (auto &spentMoneyPerYear: equipmentCost) {
+        sumOfEquipCost += spentMoneyPerYear;
+        moneyDamage += (sumOfEquipCost - moneyDamage) * (damagePercent / 100);
     }
 
-    return profit;
+    return sumOfEquipCost - moneyDamage;
 }
 
 int main() {
-    int inputMoney;
-    std::cin >> inputMoney;
+    int years, damagePercent;
+    std::cin >> years >> damagePercent;
 
-    int percentForThreeMonths, percentForSixMonths, percentForOneYear;
-    std::cin >> percentForThreeMonths >> percentForSixMonths >> percentForOneYear;
-
-
-    auto profitByThreeMonths = countProfit(inputMoney, percentForThreeMonths, THREE_MONTHS_INVESTMENTS);
-    auto profitBySixMonths = countProfit(inputMoney, percentForSixMonths, SIX_MONTHS_INVESTMENTS);
-    auto profitByOneYear = countProfit(inputMoney, percentForOneYear, ONE_YEAR_INVESTMENTS);
-
-    if (profitByOneYear == std::max(std::max(profitByOneYear, profitBySixMonths), profitByThreeMonths)) {
-        std::cout << "Deposit for one year is more profitable\n";
-        std::cout << "Your profit will be " << profitByOneYear << " leaves";
-    } else if (profitBySixMonths == std::max(std::max(profitByOneYear, profitBySixMonths), profitByThreeMonths)) {
-        std::cout << "Deposit for six months is more profitable\n";
-        std::cout << "Your profit will be " << profitBySixMonths << " leaves";
-    } else {
-        std::cout << "Deposit for three months is more profitable\n";
-        std::cout << "Your profit will be " << profitByThreeMonths << " leaves";
+    std::vector<double> equipmentCost(years);
+    for (auto &x: equipmentCost) {
+        std::cin >> x;
     }
+
+    auto costEquipAfterMarkdown = countTotalEquipmentCostAfterMarkdown(equipmentCost, damagePercent);
+    std::cout << "Total equipment cost after " << damagePercent << "% markdown annually is " << costEquipAfterMarkdown << " leaves\n";
 
     return 0;
 }
