@@ -1,39 +1,24 @@
 #include <iostream>
 #include <vector>
-
-bool isDivisibleByEachOfItsDigits(const int n) {
-    int copyN = n;
-    bool flag = true;
-    while (copyN && flag) {
-        if (copyN % 10 == 0 || copyN % (copyN % 10) != 0) {
-            flag = false;
-        } else {
-            copyN /= 10;
-        }
-    }
-
-    return flag;
-}
-
-// returns vector with all numbers with divisible by each of its digits
-std::vector<int> getAllNumbersWithDivisibleByEachOfItsDigits(const int n) {
-    std::vector<int> res;
-    for (int i = 1; i <= n; i++) {
-        if (isDivisibleByEachOfItsDigits(i)) {
-            res.push_back(i);
-        }
-    }
-
-    return res;
-}
+#include <iomanip>
 
 int main() {
-    int n;
-    std::cin >> n;
+    int stringsNumber;
+    std::cout << "Enter the number of lines ot text: ";
+    std::cin >> stringsNumber;
 
-    auto res = getAllNumbersWithDivisibleByEachOfItsDigits(n);
-    for (auto &x: res) {
-        std::cout << x << ' ';
+    std::vector<std::string> text(stringsNumber);
+    size_t maxLength = 0;
+    std::string line;
+    for (int i = 0; i < stringsNumber; i++) {
+        std::getline(std::cin, line);
+        text.at(i) = line;
+        maxLength = std::max(maxLength, line.size());
+    }
+
+    for (auto &line: text) {
+        std::cout << std::setw((maxLength + line.size() / 2));
+        std::cout << std::right << line << '\n';
     }
 
     return 0;
