@@ -106,27 +106,127 @@ bool areAmountsOfDiagonalsEqual(VT &m, CI nRows, CI nCols) {
 // amounts of diagonals are equal, else returns 'false'
 template<typename VT, typename CI>
 bool isMagicSquare(VT &m, CI nRows, CI nCols) {
-    if (areAmountsOfColsEqual(m, nRows, nCols) && areAmountsOfRowsEqual(m, nRows, nCols) &&
-        areAmountsOfDiagonalsEqual(m, nRows, nCols)) {
+    // too late understood the meaning of the magic square (crutches) :c
+    std::vector<int> amountsRows = amountsOfRows(m, nRows, nCols);
+    std::vector<int> amountsCols = amountsOfCols(m, nRows, nCols);
+    if (areAmountsOfRowsEqual(m, nRows, nCols) && areAmountsOfColsEqual(m, nRows, nCols) &&
+        areAmountsOfDiagonalsEqual(m, nRows, nCols) &&
+        amountOfMainDiagonal(m, nRows, nCols) == amountsRows.front() &&
+        amountOfMainDiagonal(m, nRows, nCols) == amountsCols.front()) {
         return true;
     } else {
         return false;
     }
 }
 
+void test_areAmountsOfRowsEqual_areEqual() {
+    std::vector<std::vector<int>> m = {{1, 2, 3},
+                                       {3, 2, 1},
+                                       {0, 0, 6}};
+    bool awaitedAreAmountsOfRowsEqual = true;
+    bool gottenResult = areAmountsOfRowsEqual(m, 3, 3);
+
+    assert(awaitedAreAmountsOfRowsEqual == gottenResult);
+}
+
+void test_areAmountsOfRowsEqual_arentEqual() {
+    std::vector<std::vector<int>> m = {{1, 4,  3},
+                                       {3, 2,  1},
+                                       {0, 24, 6}};
+    bool awaitedAreAmountsOfRowsEqual = false;
+    bool gottenResult = areAmountsOfRowsEqual(m, 3, 3);
+
+    assert(awaitedAreAmountsOfRowsEqual == gottenResult);
+}
+
+void test_areAmountsOfRowsEqual() {
+    test_areAmountsOfRowsEqual_areEqual();
+    test_areAmountsOfRowsEqual_arentEqual();
+}
+
+void test_areAmountsOfColsEqual_areEqual() {
+    std::vector<std::vector<int>> m = {{1, 2, 4},
+                                       {3, 2, 4},
+                                       {0, 0, -4}};
+    bool awaitedAreAmountsOfColsEqual = true;
+    bool gottenResult = areAmountsOfColsEqual(m, 3, 3);
+
+    assert(awaitedAreAmountsOfColsEqual == gottenResult);
+}
+
+void test_areAmountsOfColsEqual_arentEqual() {
+    std::vector<std::vector<int>> m = {{1,  2,  -4, 11},
+                                       {3,  2,  4,  3},
+                                       {15, 14, 19, 5},
+                                       {0,  0,  0,  0}};
+    bool awaitedAreAmountsOfRowsEqual = false;
+    bool gottenResult = areAmountsOfRowsEqual(m, 4, 4);
+
+    assert(awaitedAreAmountsOfRowsEqual == gottenResult);
+}
+
+void test_areAmountsOfColsEqual() {
+    test_areAmountsOfColsEqual_areEqual();
+    test_areAmountsOfColsEqual_arentEqual();
+}
+
+void test_areAmountsOfDiagonalsEqual_areEqual() {
+    std::vector<std::vector<int>> m = {{1,  2,  -4, 3},
+                                       {3,  2,  4,  3},
+                                       {15, 14, 19, 5},
+                                       {1,  3,  7,  0}};
+    bool awaitedAreAmountsOfDiagonalEqual = true;
+    bool gottenResult = areAmountsOfDiagonalsEqual(m, 4, 4);
+
+    assert(awaitedAreAmountsOfDiagonalEqual == gottenResult);
+}
+
+void test_areAmountsOfDiagonalsEqual_arentEqual() {
+    std::vector<std::vector<int>> m = {{1,  2,  -4, 1},
+                                       {3,  2,  4,  3},
+                                       {15, 14, 19, 5},
+                                       {3,  3,  7,  0}};
+    bool awaitedAreAmountsOfRowsEqual = false;
+    bool gottenResult = areAmountsOfRowsEqual(m, 4, 4);
+
+    assert(awaitedAreAmountsOfRowsEqual == gottenResult);
+}
+
+void test_areAmountsOfDiagonalsEqual() {
+    test_areAmountsOfDiagonalsEqual_areEqual();
+    test_areAmountsOfDiagonalsEqual_arentEqual();
+}
+
+void test_isMagicSquare_true() {
+    std::vector<std::vector<int>> m = {{1, 6, 5},
+                                       {8, 4, 0},
+                                       {3, 2, 7}};
+    bool awaitedIsMagicSquare = true;
+    bool gottenResult = isMagicSquare(m, 3, 3);
+
+    assert(awaitedIsMagicSquare == gottenResult);
+}
+
+void test_isMagicSquare_false() {
+    std::vector<std::vector<int>> m = {{0, 6, 5},
+                                       {8, 4, 0},
+                                       {3, 2, 7}};
+    bool awaitedIsMagicSquare = false;
+    bool gottenResult = isMagicSquare(m, 3, 3);
+
+    assert(awaitedIsMagicSquare == gottenResult);
+}
+
+void test_isMagicSquare() {
+    test_isMagicSquare_true();
+    test_isMagicSquare_false();
+}
+
 int main() {
-    int nRows, nCols;
-    std::cin >> nRows >> nCols;
-
-    std::vector<std::vector<int>> m;
-    inputMatrix(m, nRows, nCols);
-
-    bool result = isMagicSquare(m, nRows, nCols);
-    if (result) {
-        std::cout << "The matrix is magic square";
-    } else {
-        std::cout << "The matrix isn't magic square";
-    }
+    test_areAmountsOfRowsEqual();
+    test_areAmountsOfColsEqual();
+    test_areAmountsOfDiagonalsEqual();
+    test_isMagicSquare();
 
     return 0;
 }
