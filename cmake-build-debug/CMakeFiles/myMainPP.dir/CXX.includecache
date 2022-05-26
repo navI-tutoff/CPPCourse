@@ -7,10 +7,14 @@
 #IncludeRegexTransform: 
 
 C:/Users/danyt/CLionProjects/myMainPP/main.cpp
-iostream
--
-vector
+numeric
 -
 cassert
+-
+iostream
+-
+valarray
+-
+vector
 -
 
